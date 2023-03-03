@@ -45,7 +45,7 @@ int main() {
     while (!gotSelection) {
       std::string selection;
       std::cout << "Would you like to guess or forfeit?: ";
-      cin >> selection;
+      std::cin >> selection;
 
       if (selection == "forfeit") {
         gotSelection = true;
@@ -64,29 +64,29 @@ int main() {
   }
   // board = createBoardFromString("anwotmfsalihusbv");
 
-  std::cout << "YOU FOUND: " << endl;
+  std::cout << "YOU FOUND: " << std::endl;
   int onLine = 0;
   for (auto itr = playerSolvedWords.begin(); itr != playerSolvedWords.end(); itr++) {
       std::cout << *itr << " ";
       onLine++;
-      if (onLine > 10) { std::cout << endl; onLine = 0; }
+      if (onLine > 10) { std::cout << std::endl; onLine = 0; }
   }
 
-  std::cout << "POSSIBLE WORDS: " << endl;
+  std::cout << "POSSIBLE WORDS: " << std::endl;
   onLine = 0;
   for (auto itr = possibleWords.begin(); itr != possibleWords.end(); itr++) {
       std::cout << *itr << " ";
       onLine++;
-      if (onLine > 10) { std::cout << endl; onLine = 0; }
+      if (onLine > 10) { std::cout << std::endl; onLine = 0; }
   }
 
-  std::cout << endl;
+  std::cout << std::endl;
 }
 
 std::vector<std::vector<char>> createBoardFromString(std::string input) {
   std::vector<std::vector<char>> board;
   if (!(sqrt(input.length()) == int(sqrt(input.length())))) {
-    std::cout << "input not in square format" << endl;
+    std::cout << "input not in square format" << std::endl;
     return board;
   } 
   int size = int(sqrt(input.length()));
@@ -139,7 +139,7 @@ void printBoard() {
     for (int col = 0; col < board.at(row).size(); col++) {
       std::cout << board.at(row).at(col) << " ";
     }
-    std::cout << endl;
+    std::cout << std::endl;
   }
 }
 
@@ -153,11 +153,11 @@ void guess() {
     std::cin >> word;
 
     if (!isWord(word)) {
-      std::cout << word << " is not a word" << endl;
+      std::cout << word << " is not a word" << std::endl;
     } else if (!isInDictionary(word)) {
-      std::cout << word << " is not a valid word" << endl;
+      std::cout << word << " is not a valid word" << std::endl;
     } else if (word.length() == 0) {
-      std::cout << "Please enter a word" << endl;
+      std::cout << "Please enter a word" << std::endl;
     } else {
       validGuess = true;
     }
@@ -188,10 +188,10 @@ bool isWord(std::string word) {
 bool isOnBoard(std::string word) {
   word = toUpperCase(word);
 
-  std::set<pair<int, int>> startingLocations = findCharacterLocations(word.at(0));
+  std::set<std::pair<int, int>> startingLocations = findCharacterLocations(word.at(0));
 
   for (auto itr = startingLocations.begin(); itr != startingLocations.end(); itr++) {
-    pair<int, int> location = *itr;
+    std::pair<int, int> location = *itr;
     if (searchWordFromLocation(location.first, location.second, word)) {
       return true;
     }
@@ -200,13 +200,13 @@ bool isOnBoard(std::string word) {
   return false;
 }
 
-std::set<pair<int, int>> findCharacterLocations(char character) {
-  std::set<pair<int, int>> locations;
-  pair<int, int> const BOARDSIZE = getBoardSize();
+std::set<std::pair<int, int>> findCharacterLocations(char character) {
+  std::set<std::pair<int, int>> locations;
+  std::pair<int, int> const BOARDSIZE = getBoardSize();
   for (int row = 0; row < BOARDSIZE.first; row++) {
     for (int col = 0; col < BOARDSIZE.second; col++) {
       if (board.at(row).at(col) == character) {
-        locations.insert(make_pair(row, col));
+        locations.insert(std::make_pair(row, col));
       }
     }
   }
@@ -225,10 +225,10 @@ bool searchWordFromLocation(int row, int col, std::string word) {
     }
 
     char desiredCharacter = word.at(i);
-    std::set<pair<pair<int, int>, char>> adjacentCharacters = getAdjacentCharacters(currentRow, currentCol);
+    std::set<std::pair<std::pair<int, int>, char>> adjacentCharacters = getAdjacentCharacters(currentRow, currentCol);
 
     for (auto itr = adjacentCharacters.begin(); itr != adjacentCharacters.end(); itr++) {
-      pair<pair<int, int>, char> position = *itr;
+      std::pair<std::pair<int, int>, char> position = *itr;
       if (position.second == desiredCharacter) {
         tracker += desiredCharacter;
         currentRow = position.first.first;
@@ -250,16 +250,16 @@ bool isInBounds(int row, int col) {
   return row >= 0 && row < board.size() && col >= 0 && col < board.at(row).size();
 }
 
-std::set<pair<pair<int, int>, char>> getAdjacentCharacters(int row, int col) {
-  std::set<pair<pair<int, int>, char>> adjacentCharacters;
+std::set<std::pair<std::pair<int, int>, char>> getAdjacentCharacters(int row, int col) {
+  std::set<std::pair<std::pair<int, int>, char>> adjacentCharacters;
 
   for (int irow = row - 1; irow <= row + 1; irow++) {
     for (int icol = col - 1; icol <= col + 1; icol++) {
       if (isInBounds(irow, icol) && !(irow == row && icol == col)) {
-        // std::cout << " adjacent character at " << irow << " " << icol << endl;
-        pair<int, int> location = make_pair(irow, icol);
+        // std::cout << " adjacent character at " << irow << " " << icol << std::endl;
+        std::pair<int, int> location = std::make_pair(irow, icol);
         char character = board.at(irow).at(icol);
-        adjacentCharacters.insert(make_pair(location, character));
+        adjacentCharacters.insert(std::make_pair(location, character));
       }
     }
   }
@@ -267,8 +267,8 @@ std::set<pair<pair<int, int>, char>> getAdjacentCharacters(int row, int col) {
   return adjacentCharacters;
 }
 
-pair<int, int> getBoardSize() {
-  return make_pair(board.size(), board.at(0).size());
+std::pair<int, int> getBoardSize() {
+  return std::make_pair(board.size(), board.at(0).size());
 }
 
 bool isInDictionary(std::string word) {
@@ -280,7 +280,7 @@ bool isInDictionary(std::string word) {
   while (right > left) {
     mid = (right + left) / 2;
     int comparison = word.compare(dictionary.at(mid));
-    // std::cout << "Searching word " << dictionary.at(mid) << " against " << word << endl;
+    // std::cout << "Searching word " << dictionary.at(mid) << " against " << word << std::endl;
     
     if (comparison == 0) {
       return true;
@@ -302,7 +302,7 @@ bool prefixInDictionary(std::string prefix) {
 
   while (right > left) {
     mid = (right + left) / 2;
-    // std::cout << "Prefix: " << prefix << " Word at Middle: " << dictionary.at(mid) << endl;
+    // std::cout << "Prefix: " << prefix << " Word at Middle: " << dictionary.at(mid) << std::endl;
     int comparison = dictionary.at(mid).compare(0, prefix.length(), prefix);
 
     if (comparison == 0) {
@@ -321,9 +321,9 @@ bool stringStartsWith(std::string word, std::string prefix) {
   return word.compare(0, prefix.length(), prefix) == 0;
 }
 
-bool hasVisited(std::vector<pair<int, int>> visited, pair<int, int> location) {
+bool hasVisited(std::vector<std::pair<int, int>> visited, std::pair<int, int> location) {
   for (int i = 0; i < visited.size(); i++) {
-    pair<int, int> current = visited.at(i);
+    std::pair<int, int> current = visited.at(i);
     if (current.first == location.first && current.second == location.second) {
       return true;
     }
@@ -332,7 +332,7 @@ bool hasVisited(std::vector<pair<int, int>> visited, pair<int, int> location) {
 }
 
 
-std::set<std::string> solve(std::vector<pair<int, int>> visited, std::string currentWord) {
+std::set<std::string> solve(std::vector<std::pair<int, int>> visited, std::string currentWord) {
   std::set<std::string> found;
   if (isInDictionary(currentWord)) {
     found.insert(currentWord);
@@ -345,14 +345,14 @@ std::set<std::string> solve(std::vector<pair<int, int>> visited, std::string cur
   int currentRow = visited.at(visited.size() - 1).first;
   int currentCol = visited.at(visited.size() - 1).second;
 
-  std::set<pair<pair<int, int>, char>> adjacentCharacters = getAdjacentCharacters(currentRow, currentCol);
+  std::set<std::pair<std::pair<int, int>, char>> adjacentCharacters = getAdjacentCharacters(currentRow, currentCol);
 
   for (auto itr = adjacentCharacters.begin(); itr != adjacentCharacters.end(); itr++) {
-    pair<pair<int, int>, char> nextCharacter = *itr;
+    std::pair<std::pair<int, int>, char> nextCharacter = *itr;
 
     if (hasVisited(visited, nextCharacter.first)) { continue; }
 
-    std::vector<pair<int, int>> nextVisited(visited);
+    std::vector<std::pair<int, int>> nextVisited(visited);
     nextVisited.push_back(nextCharacter.first);
     std::string nextWord = currentWord + nextCharacter.second;
 
@@ -365,12 +365,12 @@ std::set<std::string> solve(std::vector<pair<int, int>> visited, std::string cur
 
 std::set<std::string> solveBoogleBoard() {
   std::set<std::string> solvedWords;
-  const pair<int, int> BOARD_SIZE = getBoardSize();
+  const std::pair<int, int> BOARD_SIZE = getBoardSize();
 
   for (int row = 0; row < BOARD_SIZE.first; row++) {
     for (int col = 0; col < BOARD_SIZE.second; col++) {
-      std::vector<pair<int, int>> visited;
-      visited.push_back(make_pair(row, col));
+      std::vector<std::pair<int, int>> visited;
+      visited.push_back(std::make_pair(row, col));
       std::string current = std::string(1, board.at(row).at(col));
 
       std::set<std::string> foundWords = solve(visited, current);
