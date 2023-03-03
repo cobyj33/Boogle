@@ -15,8 +15,12 @@ std::vector<std::string> dictionary;
 std::map<char, int> frequencyMap;
 std::set<std::string> playerSolvedWords;
 
+const std::string DICTIONARY_PATH = "dictionary.txt";
+
 int main() {
-  std::ifstream inputStream ("dictionary.txt");
+  srand(time(NULL));
+
+  std::ifstream inputStream (DICTIONARY_PATH);
   std::string currentWord;
   while (inputStream >> currentWord) {
     dictionary.push_back(currentWord);
@@ -62,7 +66,6 @@ int main() {
       guess();
     }
   }
-  // board = createBoardFromString("anwotmfsalihusbv");
 
   std::cout << "YOU FOUND: " << std::endl;
   int onLine = 0;
@@ -102,12 +105,13 @@ std::vector<std::vector<char>> createBoardFromString(std::string input) {
   return board;
 }
 
+const std::string LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const std::string LETTERS_BY_FREQUENCY = "EARIOTNSLCUDPMHGBFYKVXZJQ";
+
 std::vector<char> getLetterList() {
-  std::string const letterString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  // std::string const lettersByFreq = "eariotnslcudpmhgbfykvxzjq";
   std::vector<char> letters;
-  for (int i = 0; i < letterString.length(); i++) {
-    letters.push_back(letterString.at(i));
+  for (int i = 0; i < LETTERS.length(); i++) {
+    letters.push_back(LETTERS.at(i));
   }
   return letters;
 }
@@ -115,7 +119,6 @@ std::vector<char> getLetterList() {
 std::vector<std::vector<char>> createBoard(int size) {
   std::vector<char> letters = getLetterList();
   
-  srand(time(0));
   std::vector<std::vector<char>> board;
 
   for (int row = 0; row < size; row++) {
@@ -202,9 +205,9 @@ bool isOnBoard(std::string word) {
 
 std::set<std::pair<int, int>> findCharacterLocations(char character) {
   std::set<std::pair<int, int>> locations;
-  std::pair<int, int> const BOARDSIZE = getBoardSize();
-  for (int row = 0; row < BOARDSIZE.first; row++) {
-    for (int col = 0; col < BOARDSIZE.second; col++) {
+  const std::pair<int, int> BOARD_SIZE = getBoardSize();
+  for (int row = 0; row < BOARD_SIZE.first; row++) {
+    for (int col = 0; col < BOARD_SIZE.second; col++) {
       if (board.at(row).at(col) == character) {
         locations.insert(std::make_pair(row, col));
       }
