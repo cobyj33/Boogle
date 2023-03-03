@@ -1,7 +1,7 @@
 
 # Boogle
 
-[![Run on Repl.it](https://replit.com/badge/github/cobyj33/Boogle)](https://replit.com/cobyj33/Boogle)
+[![Run on Repl.it](https://replit.com/badge/github/cobyj33/Boogle)](https://replit.com/@cobyj33/Boogle)
 
 A game of Boogle, where a board of n x n size is filled with characters, and the player must try to guess words by connecting adjacent characters in the board
 An adjacent character is considered to be any character on top, on bottom, to the side, or directly diagonal to another character
@@ -29,7 +29,7 @@ This project includes a solver for a board, a full dictionary of words, and is f
 
 To compile the project, simply use the terminal command ```g++ main.cpp -I ./ -o main``` from the root directory of the downloaded project with g++ installed
 
-Alteratively, the project can be run in the browser on [replit](https://replit.com/cobyj33/Boogle)
+Alteratively, the project can be run in the browser on [replit](https://replit.com/@cobyj33/Boogle)
 
 
 This was the first real C++ project I ever made as a project for my Computer Science class, so I let it live here to look back upon :)
