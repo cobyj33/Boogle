@@ -4,7 +4,6 @@
 #include <string>
 
 void createFrequencyMap();
-std::vector<char> getLetterList();
 std::string toUpperCase(std::string word);
 std::vector<std::vector<char>> createBoard(int size);
 std::vector<std::vector<char>> createBoardFromString(std::string input);

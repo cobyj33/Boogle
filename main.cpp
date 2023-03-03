@@ -118,7 +118,6 @@ std::vector<char> getLetterList() {
 
 std::vector<std::vector<char>> createBoard(int size) {
   std::vector<char> letters = getLetterList();
-  
   std::vector<std::vector<char>> board;
 
   for (int row = 0; row < size; row++) {
